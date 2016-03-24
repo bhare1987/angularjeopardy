@@ -1,0 +1,1 @@
+console.error("\n/Users/brandon.hare/tiy/week8/angularjeopardy/js/services/category.service.js:12\n          $http.get(url + 'categories?count=' + count + '&offset=' + offset).then(categories){\n                                                                                             ^\nParseError: Unexpected token");

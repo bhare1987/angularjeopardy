@@ -1,0 +1,30 @@
+{
+  "name": "angularjeopardy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.5.2",
+    "bootstrap": "^3.3.6",
+    "angular-route": "^1.5.2"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "serve & node_modules/.bin/watchify --entry js/app.module.js -o js/bundle.js & node-sass css/styles.scss styles.css -w",
+    "build": "node_modules/.bin/browserify --entry js/app.module.js -o js/bundle.js & node-sass css/styles.scss styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhare1987/angularjeopardy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhare1987/angularjeopardy/issues"
+  },
+  "homepage": "https://github.com/bhare1987/angularjeopardy#readme"
+}
