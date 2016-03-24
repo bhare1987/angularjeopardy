@@ -2,7 +2,7 @@ angular
   .module('AngularJeopardy')
   .controller('CategoryController', function($scope, $location, CategoryService, $routeParams){
     function randomizer(){
-      return Math.ceil(Math.random() * 600);
+      return Math.ceil(Math.random() * 18418);
     }
 
     CategoryService.getCategories(6, randomizer()).then(function(categories){
