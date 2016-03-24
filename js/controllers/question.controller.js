@@ -5,15 +5,10 @@ angular
       return Math.ceil(Math.random() * count);
     }
 
-    $scope.getQuest = function(category, length){
-      QuestionService.getQuestions(category, randomizer(length)
-        .then(function(questions){
+    QuestionService.getQuestions(11234, 1)
+      .then(function(questions){
+        console.log(questions.data);
+        $scope.questions = questions.data;
+      })
 
-        })
-      )
-    }
-
-
-
-
-  })
+    })

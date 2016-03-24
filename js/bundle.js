@@ -26,8 +26,9 @@ angular
   require('./services/category.service');
   require('./services/player.service');
   require('./services/cache.service');
+  require('./services/question.service');
 
-},{"./controllers/category.controller":2,"./controllers/home.controller":3,"./controllers/player.controller":4,"./controllers/question.controller":5,"./directives/category.directive":6,"./directives/player.directive":7,"./directives/question.directive":8,"./services/cache.service":9,"./services/category.service":10,"./services/player.service":11,"angular":15,"angular-route":13}],2:[function(require,module,exports){
+},{"./controllers/category.controller":2,"./controllers/home.controller":3,"./controllers/player.controller":4,"./controllers/question.controller":5,"./directives/category.directive":6,"./directives/player.directive":7,"./directives/question.directive":8,"./services/cache.service":9,"./services/category.service":10,"./services/player.service":11,"./services/question.service":12,"angular":16,"angular-route":14}],2:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .controller('CategoryController', function($scope, $location, CategoryService, $routeParams){
@@ -54,18 +55,13 @@ angular
       return Math.ceil(Math.random() * count);
     }
 
-    $scope.getQuest = function(category, length){
-      QuestionService.getQuestions(category, randomizer(length)
-        .then(function(questions){
+    QuestionService.getQuestions(11234, 1)
+      .then(function(questions){
+        console.log(questions.data);
+        $scope.questions = questions.data;
+      })
 
-        })
-      )
-    }
-
-
-
-
-  })
+    })
 
 },{}],6:[function(require,module,exports){
 angular
@@ -100,7 +96,8 @@ angular
         qId: '@',
         question: '@',
         getFunc: '&',
-        qLength: '@'
+        qLength: '@',
+        qCat: '@'
       },
       link: function(scope,el,attributes,ctrl,transclude) {
 
@@ -143,6 +140,32 @@ angular
 },{}],11:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],12:[function(require,module,exports){
+angular
+  .module('AngularJeopardy')
+  .service('QuestionService', function($http, $q, CacheService){
+    var qSvc = {
+      url: 'http://jservice.io/api/',
+      getQuestions: function(category, offset){
+        var defer = $q.defer();
+        var cache = CacheService.get('questions');
+        if(cache){
+          defer.resolve(cache);
+        } else {
+          console.log(qSvc.url + 'clues?category=' + category + '&offset=' + offset);
+          $http.get(qSvc.url + 'clues?category=' + category + '&offset=' + offset).then(function(questions){
+            CacheService.put('questions', questions);
+            defer.resolve(questions);
+          })
+        }
+        return defer.promise;
+      }
+    }
+    return {
+      getQuestions: qSvc.getQuestions
+    }
+  });
+
+},{}],13:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1166,11 +1189,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":12}],14:[function(require,module,exports){
+},{"./angular-route":13}],15:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -31751,8 +31774,8 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":14}]},{},[1]);
+},{"./angular":15}]},{},[1]);

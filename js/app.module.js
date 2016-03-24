@@ -25,3 +25,4 @@ angular
   require('./services/category.service');
   require('./services/player.service');
   require('./services/cache.service');
+  require('./services/question.service');

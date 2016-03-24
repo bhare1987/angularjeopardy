@@ -8,7 +8,8 @@ angular
         qId: '@',
         question: '@',
         getFunc: '&',
-        qLength: '@'
+        qLength: '@',
+        qCat: '@'
       },
       link: function(scope,el,attributes,ctrl,transclude) {
 
