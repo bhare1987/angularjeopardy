@@ -7,7 +7,7 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'templates/home.html',
-        controller: 'HomeController'
+        controller: 'CategoryController'
       })
       .otherwise({
         redirectTo: '/404'
@@ -22,6 +22,6 @@ angular
   require('./directives/category.directive');
   require('./directives/player.directive');
   require('./services/player.service');
-  require('./services/cache.service');
   require('./services/category.service');
   require('./services/player.service');
+  require('./services/cache.service');

@@ -1,15 +1,15 @@
 angular
   .module('AngularJeopardy')
-  .service('CategoryService', function($http, $q, CacheService){
+  .service('QuestionService', function($http, $q, CacheService){
     var qSvc = {
       url: 'http://jservice.io/api/',
-      getQuestions: function(category){
+      getQuestions: function(category, offset){
         var defer = $q.defer();
         var cache = CacheService.cacheEnginer.get('questions');
         if(cache){
           defer.resolve(cache);
         } else {
-          $http.get(url + 'clues?category=' + category).then(questions){
+          $http.get(qSvc.url + 'clues?category=' + category + '&offset=' + offset).then(function(questions){
             CacheService.cacheEngine.put('questions', questions);
             defer.resolve(questions);
           })

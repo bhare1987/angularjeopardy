@@ -5,12 +5,12 @@ angular
       url: 'http://jservice.io/api/',
       getCategories: function(count, offset){
         var defer = $q.defer();
-        var cache = CacheService.cacheEngine.get('categories');
+        var cache = CacheService.get('categories');
         if(cache){
           defer.resolve(cache);
         } else {
-          $http.get(url + 'categories?count=' + count + '&offset=' + offset).then(categories){
-            CacheService.cacheEngine.put('categories', categories);
+          $http.get(catSvc.url + 'categories?count=' + count + '&offset=' + offset).then(function(categories){
+            CacheService.put('categories', categories);
             defer.resolve(categories);
           })
         }
