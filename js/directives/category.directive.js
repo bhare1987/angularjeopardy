@@ -6,13 +6,15 @@ angular
       restrict: 'AE',
       scope: {
         catId: '@',
+        categories: '@',
         catTitle: '@',
         catCount: '@',
+        questions: '=',
+        question: '@',
         getFunc: '&'
       },
-      transclude: true,
       link: function(scope,el,attributes) {
-        // el.find('.question-content').append(transclude());
+
       },
     }
   })

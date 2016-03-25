@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-12">
     <h2>Categories</h2>
-    <div class="row">
-      <div class="col-xs-2" category-directive cat-title="{{category.title}}" ng-repeat="category in categories">
-        
+    <div class="col-xs-2" ng-repeat="category in categories">
+      {{category.data.title}}
+      <div category-directive questions="category.data.clues">
       </div>
     </div>
   </div>

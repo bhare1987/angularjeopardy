@@ -15,9 +15,23 @@ angular
           })
         }
         return defer.promise;
+      },
+      allCats: function(){
+        return $q.all([
+          catSvc.getCategories(catSvc.randomizer()),
+          catSvc.getCategories(catSvc.randomizer()),
+          catSvc.getCategories(catSvc.randomizer()),
+          catSvc.getCategories(catSvc.randomizer()),
+          catSvc.getCategories(catSvc.randomizer()),
+          catSvc.getCategories(catSvc.randomizer())
+        ])
+      },
+      randomizer: function(){
+        return Math.ceil(Math.random() * 18418);
       }
     }
     return {
+      allCats: catSvc.allCats,
       getCategories: catSvc.getCategories
     }
   });

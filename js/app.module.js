@@ -1,5 +1,6 @@
 var angular = require('angular');
 var angularRoute = require('angular-route');
+var _ = require('underscore');
 
 angular
   .module('AngularJeopardy', ['ngRoute'])
@@ -15,7 +16,6 @@ angular
   });
 
   require('./controllers/category.controller');
-  require('./controllers/home.controller');
   require('./controllers/player.controller');
   require('./controllers/question.controller');
   require('./directives/question.directive');
