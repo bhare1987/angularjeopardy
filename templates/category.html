@@ -1,3 +1,5 @@
 <div class="question-box" ng-repeat="question in questions">
-  {{question.question}}
+  <div ng-model="question">
+    {{question.value}}
+  </div>
 </div>
