@@ -18,6 +18,12 @@ angular
           }
         })
       })
+    $scope.skipAnswer = function(){
+      var modal = '#' + this.question.id;
+      $(modal).modal('hide');
+      $(modal).siblings('.question-value').text('').attr("disabled", true);
+      $scope.player.answer = this.question.answer;
+    }
     $scope.getAnswer = function(){
       var modal = '#' + this.question.id;
       if(this.question.answer === this.question.userAnswer){
@@ -28,7 +34,6 @@ angular
       $(modal).modal('hide');
       $(modal).siblings('.question-value').text('').attr("disabled", true);
       $scope.player.answer = this.question.answer;
-      ;
     }
     $scope.player = {
       score: 0,
@@ -37,5 +42,6 @@ angular
     $scope.updateScore = function(points){
       $scope.player.score += points;
     }
+
 
   })

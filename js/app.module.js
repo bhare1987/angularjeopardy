@@ -18,11 +18,6 @@ angular
   });
 
   require('./controllers/category.controller');
-  require('./controllers/player.controller');
-  require('./controllers/question.controller');
   require('./directives/player.directive');
-  require('./services/player.service');
   require('./services/category.service');
-  require('./services/player.service');
   require('./services/cache.service');
-  require('./services/question.service');

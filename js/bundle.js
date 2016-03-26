@@ -19,16 +19,11 @@ angular
   });
 
   require('./controllers/category.controller');
-  require('./controllers/player.controller');
-  require('./controllers/question.controller');
   require('./directives/player.directive');
-  require('./services/player.service');
   require('./services/category.service');
-  require('./services/player.service');
   require('./services/cache.service');
-  require('./services/question.service');
 
-},{"./controllers/category.controller":2,"./controllers/player.controller":3,"./controllers/question.controller":4,"./directives/player.directive":5,"./services/cache.service":6,"./services/category.service":7,"./services/player.service":8,"./services/question.service":9,"angular":13,"angular-route":11,"annyang":14,"bootstrap":15,"jquery":28,"underscore":29}],2:[function(require,module,exports){
+},{"./controllers/category.controller":2,"./directives/player.directive":3,"./services/cache.service":4,"./services/category.service":5,"angular":9,"angular-route":7,"annyang":10,"bootstrap":11,"jquery":24,"underscore":25}],2:[function(require,module,exports){
 var _ = require('underscore');
 var annyang = require('annyang');
 var $ = require('jquery');
@@ -49,6 +44,12 @@ angular
           }
         })
       })
+    $scope.skipAnswer = function(){
+      var modal = '#' + this.question.id;
+      $(modal).modal('hide');
+      $(modal).siblings('.question-value').text('').attr("disabled", true);
+      $scope.player.answer = this.question.answer;
+    }
     $scope.getAnswer = function(){
       var modal = '#' + this.question.id;
       if(this.question.answer === this.question.userAnswer){
@@ -59,7 +60,6 @@ angular
       $(modal).modal('hide');
       $(modal).siblings('.question-value').text('').attr("disabled", true);
       $scope.player.answer = this.question.answer;
-      ;
     }
     $scope.player = {
       score: 0,
@@ -69,27 +69,10 @@ angular
       $scope.player.score += points;
     }
 
+
   })
 
-},{"annyang":14,"jquery":28,"underscore":29}],3:[function(require,module,exports){
-
-},{}],4:[function(require,module,exports){
-angular
-  .module('AngularJeopardy')
-  .controller('QuestionController', function($scope, $location, QuestionService, $routeParams){
-    function randomizer(count){
-      return Math.ceil(Math.random() * count);
-    }
-
-    QuestionService.getQuestions(11234, 1)
-      .then(function(questions){
-        console.log(questions.data);
-        $scope.questions = questions.data;
-      })
-
-    })
-
-},{}],5:[function(require,module,exports){
+},{"annyang":10,"jquery":24,"underscore":25}],3:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .directive('playerDirective', function() {
@@ -105,14 +88,14 @@ angular
     }
   })
 
-},{}],6:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .service('CacheService', function($http, $q, $cacheFactory){
       return $cacheFactory('AngularJeopardy');
   });
 
-},{}],7:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var annyang = require('annyang');
 
 angular
@@ -150,35 +133,7 @@ angular
     return catSvc;
   });
 
-},{"annyang":14}],8:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],9:[function(require,module,exports){
-angular
-  .module('AngularJeopardy')
-  .service('QuestionService', function($http, $q, CacheService){
-    var qSvc = {
-      url: 'http://jservice.io/api/',
-      getQuestions: function(category, offset){
-        var defer = $q.defer();
-        var cache = CacheService.get('questions');
-        if(cache){
-          defer.resolve(cache);
-        } else {
-          console.log(qSvc.url + 'clues?category=' + category + '&offset=' + offset);
-          $http.get(qSvc.url + 'clues?category=' + category + '&offset=' + offset).then(function(questions){
-            CacheService.put('questions', questions);
-            defer.resolve(questions);
-          })
-        }
-        return defer.promise;
-      }
-    }
-    return {
-      getQuestions: qSvc.getQuestions
-    }
-  });
-
-},{}],10:[function(require,module,exports){
+},{"annyang":10}],6:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1202,11 +1157,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],11:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":10}],12:[function(require,module,exports){
+},{"./angular-route":6}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -31787,11 +31742,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],13:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":12}],14:[function(require,module,exports){
+},{"./angular":8}],10:[function(require,module,exports){
 function annyang() {
 
 	// Save a reference to the global object (window in the browser)
@@ -31889,7 +31844,7 @@ function annyang() {
 
 module.exports = annyang;
 
-},{}],15:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -31903,7 +31858,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":16,"../../js/alert.js":17,"../../js/button.js":18,"../../js/carousel.js":19,"../../js/collapse.js":20,"../../js/dropdown.js":21,"../../js/modal.js":22,"../../js/popover.js":23,"../../js/scrollspy.js":24,"../../js/tab.js":25,"../../js/tooltip.js":26,"../../js/transition.js":27}],16:[function(require,module,exports){
+},{"../../js/affix.js":12,"../../js/alert.js":13,"../../js/button.js":14,"../../js/carousel.js":15,"../../js/collapse.js":16,"../../js/dropdown.js":17,"../../js/modal.js":18,"../../js/popover.js":19,"../../js/scrollspy.js":20,"../../js/tab.js":21,"../../js/tooltip.js":22,"../../js/transition.js":23}],12:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.6
  * http://getbootstrap.com/javascript/#affix
@@ -32067,7 +32022,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],17:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.6
  * http://getbootstrap.com/javascript/#alerts
@@ -32163,7 +32118,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],18:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.6
  * http://getbootstrap.com/javascript/#buttons
@@ -32285,7 +32240,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],19:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.6
  * http://getbootstrap.com/javascript/#carousel
@@ -32524,7 +32479,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],20:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.6
  * http://getbootstrap.com/javascript/#collapse
@@ -32737,7 +32692,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],21:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.6
  * http://getbootstrap.com/javascript/#dropdowns
@@ -32904,7 +32859,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],22:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.6
  * http://getbootstrap.com/javascript/#modals
@@ -33243,7 +33198,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],23:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.6
  * http://getbootstrap.com/javascript/#popovers
@@ -33353,7 +33308,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.6
  * http://getbootstrap.com/javascript/#scrollspy
@@ -33527,7 +33482,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],25:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.6
  * http://getbootstrap.com/javascript/#tabs
@@ -33684,7 +33639,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],26:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.6
  * http://getbootstrap.com/javascript/#tooltip
@@ -34200,7 +34155,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],27:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.6
  * http://getbootstrap.com/javascript/#transitions
@@ -34261,7 +34216,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],28:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.2
  * http://jquery.com/
@@ -44105,7 +44060,7 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],29:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

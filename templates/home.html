@@ -3,7 +3,7 @@
     <div class="col-xs-2" ng-repeat="category in categories">
     <div class="category-title">{{category.data.title}}</div>
       <div class="question-box" ng-repeat="question in category.data.clues">
-        <button class="question-value" data-toggle="modal" data-target="#{{question.id}}">
+        <button class="question-value" data-toggle="modal" data-backdrop="static" data-target="#{{question.id}}">
           {{question.value}}
         </button>
         <div id="{{question.id}}" class="modal fade" tabindex="-1" role="dialog">
