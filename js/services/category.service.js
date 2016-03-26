@@ -1,3 +1,5 @@
+var annyang = require('annyang');
+
 angular
   .module('AngularJeopardy')
   .service('CategoryService', function($http, $q, CacheService){
@@ -28,10 +30,7 @@ angular
       },
       randomizer: function(){
         return Math.ceil(Math.random() * 18418);
-      }
+      },
     }
-    return {
-      allCats: catSvc.allCats,
-      getCategories: catSvc.getCategories
-    }
+    return catSvc;
   });

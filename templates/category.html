@@ -1,5 +1,19 @@
 <div class="question-box" ng-repeat="question in questions">
-  <div ng-model="question">
+  <button data-toggle="modal" data-target="#{{question.id}}"><div>
     {{question.value}}
-  </div>
+  </div></button>
+  <div id="{{question.id}}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>{{question.question}}</p>
+        </div>
+        <div class="modal-footer">
+          <button ng-click="skipAnswer()" type="button" class="btn btn-danger" data-dismiss="modal">Skip</button>
+          <input type="text" name="answer" value="" ng-model="question.userAnswer">
+          <button ng-click="getAnswer()" type="button" class="btn btn-primary">Submit Answer</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 </div>

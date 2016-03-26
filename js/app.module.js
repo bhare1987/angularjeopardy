@@ -1,7 +1,9 @@
 var angular = require('angular');
 var angularRoute = require('angular-route');
 var _ = require('underscore');
-
+var $ = jQuery = require('jquery');
+var bootstrap = require('bootstrap');
+var annyang = require('annyang');
 angular
   .module('AngularJeopardy', ['ngRoute'])
   .config(function($routeProvider){
@@ -18,8 +20,6 @@ angular
   require('./controllers/category.controller');
   require('./controllers/player.controller');
   require('./controllers/question.controller');
-  require('./directives/question.directive');
-  require('./directives/category.directive');
   require('./directives/player.directive');
   require('./services/player.service');
   require('./services/category.service');
