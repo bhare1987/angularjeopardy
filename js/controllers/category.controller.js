@@ -5,7 +5,7 @@ var $ = require('jquery');
 angular
   .module('AngularJeopardy')
   .controller('CategoryController', function($scope, CategoryService){
-    CategoryService.allCats()
+    CategoryService.allCats(6)
       .then(function(categories){
         $scope.categories = categories;
         console.log(categories);
@@ -26,7 +26,7 @@ angular
     }
     $scope.getAnswer = function(){
       var modal = '#' + this.question.id;
-      if(this.question.answer === this.question.userAnswer){
+      if(this.question.answer.toLowerCase().includes(this.question.userAnswer.toLowerCase())){
         $scope.updateScore(this.question.value);
       } else {
         $scope.updateScore(-this.question.value);

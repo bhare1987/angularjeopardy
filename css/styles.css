@@ -55,7 +55,7 @@ div.category-title {
 .player {
   display: flex;
   flex-direction: column;
-  height: 150px;
+  min-height: 150px;
   align-items: center;
   justify-content: center;
   background-color: #060CE9;

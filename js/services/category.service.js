@@ -18,15 +18,12 @@ angular
         }
         return defer.promise;
       },
-      allCats: function(){
-        return $q.all([
-          catSvc.getCategories(catSvc.randomizer()),
-          catSvc.getCategories(catSvc.randomizer()),
-          catSvc.getCategories(catSvc.randomizer()),
-          catSvc.getCategories(catSvc.randomizer()),
-          catSvc.getCategories(catSvc.randomizer()),
-          catSvc.getCategories(catSvc.randomizer())
-        ])
+      allCats: function(number){
+        var promises = [];
+        for (var i = 0; i < number; i++){
+          promises.push(catSvc.getCategories(catSvc.randomizer()));
+        }
+        return $q.all(promises)
       },
       randomizer: function(){
         return Math.ceil(Math.random() * 18418);
