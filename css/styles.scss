@@ -2,6 +2,15 @@
   box-sizing: border-box;
   font-family: Helvetica;
 }
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  button[name="start"] {
+    margin-bottom: 20px;
+  }
+}
 
 body {
   background-image: url('http://creeklic.com/wp-content/uploads/2015/01/jeopardy.jpg');
