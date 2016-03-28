@@ -34,7 +34,6 @@ angular
     CategoryService.allCats(6)
       .then(function(categories){
         $scope.categories = categories;
-        console.log(categories);
         $scope.categories.forEach(function(el){
           if(el.data.clues_count > 5){
             el.data.clues = _.first(_.shuffle(el.data.clues), 5);
