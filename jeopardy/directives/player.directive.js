@@ -2,7 +2,7 @@ angular
   .module('AngularJeopardy')
   .directive('playerDirective', function() {
     return {
-      templateUrl: '../../templates/player.html',
+      templateUrl: 'jeopardy/templates/player.html',
       restrict: 'AE',
       scope: {
         player: "="

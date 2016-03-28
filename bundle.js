@@ -1,29 +1,25 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var angular = require('angular');
 var angularRoute = require('angular-route');
-var _ = require('underscore');
-var $ = jQuery = require('jquery');
-var bootstrap = require('bootstrap');
-var annyang = require('annyang');
+
 angular
-  .module('AngularJeopardy', ['ngRoute'])
+  .module('App', [
+    'ngRoute',
+    'AngularJeopardy'
+  ])
   .config(function($routeProvider){
     $routeProvider
       .when('/', {
-        templateUrl: 'templates/home.html',
-        controller: 'CategoryController'
+        templateUrl: 'main.html'
       })
       .otherwise({
         redirectTo: '/404'
       })
   });
 
-  require('./controllers/category.controller');
-  require('./directives/player.directive');
-  require('./services/category.service');
-  require('./services/cache.service');
+  require('./jeopardy');
 
-},{"./controllers/category.controller":2,"./directives/player.directive":3,"./services/cache.service":4,"./services/category.service":5,"angular":9,"angular-route":7,"annyang":10,"bootstrap":11,"jquery":24,"underscore":25}],2:[function(require,module,exports){
+},{"./jeopardy":4,"angular":11,"angular-route":9}],2:[function(require,module,exports){
 var _ = require('underscore');
 var annyang = require('annyang');
 var $ = require('jquery');
@@ -71,12 +67,12 @@ angular
 
   })
 
-},{"annyang":10,"jquery":24,"underscore":25}],3:[function(require,module,exports){
+},{"annyang":12,"jquery":26,"underscore":27}],3:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .directive('playerDirective', function() {
     return {
-      templateUrl: '../../templates/player.html',
+      templateUrl: 'jeopardy/templates/player.html',
       restrict: 'AE',
       scope: {
         player: "="
@@ -88,13 +84,40 @@ angular
   })
 
 },{}],4:[function(require,module,exports){
+require('./jeopardy.module');
+require('./controllers/category.controller');
+require('./directives/player.directive');
+require('./services/category.service');
+require('./services/cache.service');
+
+},{"./controllers/category.controller":2,"./directives/player.directive":3,"./jeopardy.module":5,"./services/cache.service":6,"./services/category.service":7}],5:[function(require,module,exports){
+var angular = require('angular');
+var angularRoute = require('angular-route');
+var _ = require('underscore');
+var $ = jQuery = require('jquery');
+var bootstrap = require('bootstrap');
+
+angular
+  .module('AngularJeopardy', ['ngRoute'])
+  .config(function($routeProvider){
+    $routeProvider
+      .when('/jeopardy', {
+        templateUrl: 'jeopardy/templates/game.html',
+        controller: 'CategoryController'
+      })
+      .otherwise({
+        redirectTo: '/404'
+      })
+  });
+
+},{"angular":11,"angular-route":9,"bootstrap":13,"jquery":26,"underscore":27}],6:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .service('CacheService', function($http, $q, $cacheFactory){
       return $cacheFactory('AngularJeopardy');
   });
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var annyang = require('annyang');
 
 angular
@@ -129,7 +152,7 @@ angular
     return catSvc;
   });
 
-},{"annyang":10}],6:[function(require,module,exports){
+},{"annyang":12}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1153,11 +1176,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":6}],8:[function(require,module,exports){
+},{"./angular-route":8}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -31738,11 +31761,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":8}],10:[function(require,module,exports){
+},{"./angular":10}],12:[function(require,module,exports){
 function annyang() {
 
 	// Save a reference to the global object (window in the browser)
@@ -31840,7 +31863,7 @@ function annyang() {
 
 module.exports = annyang;
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -31854,7 +31877,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":12,"../../js/alert.js":13,"../../js/button.js":14,"../../js/carousel.js":15,"../../js/collapse.js":16,"../../js/dropdown.js":17,"../../js/modal.js":18,"../../js/popover.js":19,"../../js/scrollspy.js":20,"../../js/tab.js":21,"../../js/tooltip.js":22,"../../js/transition.js":23}],12:[function(require,module,exports){
+},{"../../js/affix.js":14,"../../js/alert.js":15,"../../js/button.js":16,"../../js/carousel.js":17,"../../js/collapse.js":18,"../../js/dropdown.js":19,"../../js/modal.js":20,"../../js/popover.js":21,"../../js/scrollspy.js":22,"../../js/tab.js":23,"../../js/tooltip.js":24,"../../js/transition.js":25}],14:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.6
  * http://getbootstrap.com/javascript/#affix
@@ -32018,7 +32041,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.6
  * http://getbootstrap.com/javascript/#alerts
@@ -32114,7 +32137,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.6
  * http://getbootstrap.com/javascript/#buttons
@@ -32236,7 +32259,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.6
  * http://getbootstrap.com/javascript/#carousel
@@ -32475,7 +32498,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.6
  * http://getbootstrap.com/javascript/#collapse
@@ -32688,7 +32711,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.6
  * http://getbootstrap.com/javascript/#dropdowns
@@ -32855,7 +32878,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.6
  * http://getbootstrap.com/javascript/#modals
@@ -33194,7 +33217,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.6
  * http://getbootstrap.com/javascript/#popovers
@@ -33304,7 +33327,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.6
  * http://getbootstrap.com/javascript/#scrollspy
@@ -33478,7 +33501,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.6
  * http://getbootstrap.com/javascript/#tabs
@@ -33635,7 +33658,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.6
  * http://getbootstrap.com/javascript/#tooltip
@@ -34151,7 +34174,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.6
  * http://getbootstrap.com/javascript/#transitions
@@ -34212,7 +34235,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.2
  * http://jquery.com/
@@ -44056,7 +44079,7 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
