@@ -1,0 +1,21 @@
+<div class="question-box">
+  <button class="question-value" data-toggle="modal" data-backdrop="static" data-target="#{{question.id}}">
+    {{question.value}}
+  </button>
+  <div id="{{question.id}}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>{{question.question}}</p>
+        </div>
+        <div class="modal-footer">
+          <div class="form-group">
+            <input class="form-control" type="text" name="answer" value="" ng-model="question.userAnswer">
+            <button ng-click="skipAnswer()" type="button" class="btn btn-danger" data-dismiss="modal">Skip</button>
+            <button ng-click="getAnswer()" type="button" class="btn btn-primary">Submit Answer</button>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>

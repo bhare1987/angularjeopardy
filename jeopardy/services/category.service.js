@@ -1,4 +1,4 @@
-var annyang = require('annyang');
+var _ = require('underscore');
 
 angular
   .module('AngularJeopardy')
@@ -23,7 +23,18 @@ angular
         for (var i = 0; i < number; i++){
           promises.push(catSvc.getCategories(catSvc.randomizer()));
         }
-        return $q.all(promises)
+        return $q.all(promises).then(function(categories){
+          categories.forEach(function(el){
+            if(el.data.clues_count > 5){
+              el.data.clues = _.first(_.shuffle(el.data.clues), 5);
+            }
+            for(var i = 0; i < 5; i++){
+              el.data.clues[i].value = 200 * (i + 1);
+            }
+
+          });
+          return categories;
+        });
       },
       randomizer: function(){
         return Math.ceil(Math.random() * 18418);

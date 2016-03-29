@@ -19,55 +19,47 @@ angular
 
   require('./jeopardy');
 
-},{"./jeopardy":4,"angular":11,"angular-route":9}],2:[function(require,module,exports){
+},{"./jeopardy":5,"angular":12,"angular-route":10}],2:[function(require,module,exports){
 var _ = require('underscore');
-var annyang = require('annyang');
 var $ = require('jquery');
 
 angular
   .module('AngularJeopardy')
   .controller('CategoryController', function($scope, CategoryService){
+    var vm = this;
     CategoryService.allCats(6)
       .then(function(categories){
-        $scope.categories = categories;
-        $scope.categories.forEach(function(el){
-          if(el.data.clues_count > 5){
-            el.data.clues = _.first(_.shuffle(el.data.clues), 5);
-          }
-          for(var i = 0; i < 5; i++){
-            el.data.clues[i].value = 200 * (i + 1);
-          }
-        })
-      })
-    $scope.skipAnswer = function(){
-      var modal = '#' + this.question.id;
+        vm.categories = categories;
+      });
+    vm.skipAnswer = function(question){
+      var modal = '#' + question.id;
       $(modal).modal('hide');
       $(modal).siblings('.question-value').text('').attr("disabled", true);
-      $scope.player.answer = this.question.answer;
+      vm.player.answer = question.answer;
     }
-    $scope.getAnswer = function(){
-      var modal = '#' + this.question.id;
-      if(this.question.answer.toLowerCase().includes(this.question.userAnswer.toLowerCase())){
-        $scope.updateScore(this.question.value);
+    vm.getAnswer = function(question){
+      var modal = '#' + question.id;
+      if(question.answer.toLowerCase().includes(question.userAnswer.toLowerCase())){
+        vm.updateScore(question.value);
       } else {
-        $scope.updateScore(-this.question.value);
+        vm.updateScore(-question.value);
       }
       $(modal).modal('hide');
       $(modal).siblings('.question-value').text('').attr("disabled", true);
-      $scope.player.answer = this.question.answer;
+      vm.player.answer = question.answer;
     }
-    $scope.player = {
+    vm.player = {
       score: 0,
       answer: ""
     };
-    $scope.updateScore = function(points){
-      $scope.player.score += points;
+    vm.updateScore = function(points){
+      vm.player.score += points;
     }
 
 
   })
 
-},{"annyang":12,"jquery":26,"underscore":27}],3:[function(require,module,exports){
+},{"jquery":26,"underscore":27}],3:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .directive('playerDirective', function() {
@@ -84,13 +76,33 @@ angular
   })
 
 },{}],4:[function(require,module,exports){
+angular
+  .module('AngularJeopardy')
+  .directive('questionDirective', function() {
+    return {
+      templateUrl: 'jeopardy/templates/question.html',
+      restrict: 'AE',
+      transclude: true,
+      scope: {
+        question: "=",
+        getAnswer: "&",
+        skipAnswer: "&"
+      },
+      link: function(scope,el,attributes) {
+
+      },
+    }
+  })
+
+},{}],5:[function(require,module,exports){
 require('./jeopardy.module');
 require('./controllers/category.controller');
 require('./directives/player.directive');
+require('./directives/question.directive');
 require('./services/category.service');
 require('./services/cache.service');
 
-},{"./controllers/category.controller":2,"./directives/player.directive":3,"./jeopardy.module":5,"./services/cache.service":6,"./services/category.service":7}],5:[function(require,module,exports){
+},{"./controllers/category.controller":2,"./directives/player.directive":3,"./directives/question.directive":4,"./jeopardy.module":6,"./services/cache.service":7,"./services/category.service":8}],6:[function(require,module,exports){
 var angular = require('angular');
 var angularRoute = require('angular-route');
 var _ = require('underscore');
@@ -103,22 +115,22 @@ angular
     $routeProvider
       .when('/jeopardy', {
         templateUrl: 'jeopardy/templates/game.html',
-        controller: 'CategoryController'
+        controller: 'CategoryController as CatCtrl'
       })
       .otherwise({
         redirectTo: '/404'
       })
   });
 
-},{"angular":11,"angular-route":9,"bootstrap":13,"jquery":26,"underscore":27}],6:[function(require,module,exports){
+},{"angular":12,"angular-route":10,"bootstrap":13,"jquery":26,"underscore":27}],7:[function(require,module,exports){
 angular
   .module('AngularJeopardy')
   .service('CacheService', function($http, $q, $cacheFactory){
       return $cacheFactory('AngularJeopardy');
   });
 
-},{}],7:[function(require,module,exports){
-var annyang = require('annyang');
+},{}],8:[function(require,module,exports){
+var _ = require('underscore');
 
 angular
   .module('AngularJeopardy')
@@ -143,7 +155,18 @@ angular
         for (var i = 0; i < number; i++){
           promises.push(catSvc.getCategories(catSvc.randomizer()));
         }
-        return $q.all(promises)
+        return $q.all(promises).then(function(categories){
+          categories.forEach(function(el){
+            if(el.data.clues_count > 5){
+              el.data.clues = _.first(_.shuffle(el.data.clues), 5);
+            }
+            for(var i = 0; i < 5; i++){
+              el.data.clues[i].value = 200 * (i + 1);
+            }
+
+          });
+          return categories;
+        });
       },
       randomizer: function(){
         return Math.ceil(Math.random() * 18418);
@@ -152,7 +175,7 @@ angular
     return catSvc;
   });
 
-},{"annyang":12}],8:[function(require,module,exports){
+},{"underscore":27}],9:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1176,11 +1199,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":8}],10:[function(require,module,exports){
+},{"./angular-route":9}],11:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -31761,109 +31784,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":10}],12:[function(require,module,exports){
-function annyang() {
-
-	// Save a reference to the global object (window in the browser)
-	var root = this;
-
-	var commandsList = [];
-	var callbacks = {
-		start : [],
-		error : [],
-		end : [],
-		result : [],
-		resultMatch : [],
-		resultNoMatch : [],
-		errorNetwork : [],
-		errorPermissionBlocked : [],
-		errorPermissionDenied : []
-	};
-	var debugState = false;
-
-	var optionalParam = /\s*\((.*?)\)\s*/g;
-	var optionalRegex = /(\(\?:[^)]+\))\?/g;
-	var namedParam = /(\(\?)?:\w+/g;
-	var splatParam = /\*\w+/g;
-	var escapeRegExp = /[\-{}\[\]+?.,\\\^$|#]/g;
-
-	var commandToRegExp = function(command) {
-
-		command = command.replace(escapeRegExp, '\\$&').replace(optionalParam, '(?:$1)?').replace(namedParam, function(match, optional) {
-			return optional ? match : '([^\\s]+)';
-		}).replace(splatParam, '(.*?)').replace(optionalRegex, '\\s*$1?\\s*');
-
-		return new RegExp('^' + command + '$', 'i');
-
-	};
-
-	// This method receives an array of callbacks to iterate over, and invokes each of them
-	var invokeCallbacks = function(callbacks) {
-		callbacks.forEach(function(callback) {
-			callback.callback.apply(callback.context);
-		});
-	};
-
-	// Initialize annyang with a list of commands to recognize.
-	// e.g. annyang.init({'hello :name': helloFunction})
-	// annyang understands commands with named variables, splats, and optional words.
-
-	this.init = function(commands) {
-
-		for (var phrase in commands) {
-			if (commands.hasOwnProperty(phrase)) {
-
-				cb = root[commands[phrase]] || commands[phrase];
-
-				if ( typeof cb !== 'function') {
-					continue;
-				}
-
-				//convert command to regex
-				command = commandToRegExp(phrase);
-
-				commandsList.push({
-					command : command,
-					callback : cb,
-					originalPhrase : phrase
-				});
-
-			}
-		}
-
-	};
-
-	this.trigger = function(commandText) {
-
-		for (var j = 0, l = commandsList.length; j < l; j++) {
-			var result = commandsList[j].command.exec(commandText);
-
-			if (result) {
-				var parameters = result.slice(1);
-				if (debugState) {
-					root.console.log('command matched: %c' + commandsList[j].originalPhrase, debugStyle);
-					if (parameters.length) {
-						root.console.log('with parameters', parameters);
-					}
-				}
-				// execute the matched command
-				commandsList[j].callback.apply(this, parameters);
-				invokeCallbacks(callbacks.resultMatch);
-				return true;
-			}
-		}
-
-	};
-
-};
-
-module.exports = annyang;
-
-},{}],13:[function(require,module,exports){
+},{"./angular":11}],13:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')

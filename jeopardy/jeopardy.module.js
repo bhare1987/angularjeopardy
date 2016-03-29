@@ -10,7 +10,7 @@ angular
     $routeProvider
       .when('/jeopardy', {
         templateUrl: 'jeopardy/templates/game.html',
-        controller: 'CategoryController'
+        controller: 'CategoryController as CatCtrl'
       })
       .otherwise({
         redirectTo: '/404'

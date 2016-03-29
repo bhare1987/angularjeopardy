@@ -3,32 +3,14 @@
 </header>
 <div class="row">
   <div class="col-md-12">
-    <div class="col-xs-2" ng-repeat="category in categories">
+    <div class="col-xs-2" ng-repeat="category in CatCtrl.categories">
       <div class="category-title">{{category.data.title}}</div>
-      <div class="question-box" ng-repeat="question in category.data.clues">
-        <button class="question-value" data-toggle="modal" data-backdrop="static" data-target="#{{question.id}}">
-          {{question.value}}
-        </button>
-        <div id="{{question.id}}" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <p>{{question.question}}</p>
-              </div>
-              <div class="modal-footer">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="answer" value="" ng-model="question.userAnswer">
-                  <button ng-click="skipAnswer()" type="button" class="btn btn-danger" data-dismiss="modal">Skip</button>
-                  <button ng-click="getAnswer()" type="button" class="btn btn-primary">Submit Answer</button>
-                </div>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+      <div ng-repeat="question in category.data.clues">
+        <question-directive get-answer="CatCtrl.getAnswer(question)" skip-answer="CatCtrl.skipAnswer(question)" question='question'></question-directive>
       </div>
     </div>
   </div>
 </div>
 <div class="row">
-  <player-directive player="player"></player-directive>
+  <player-directive player="CatCtrl.player"></player-directive>
 </div>
